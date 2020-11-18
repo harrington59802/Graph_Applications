@@ -41,7 +41,7 @@ import java.util.Iterator;
 
 public class ShortestCommonAncestor {
     private Digraph DAG;                    // digraph in question
-    private ArrayList<Integer> keysToNull; // keep track of vertex indexed array indices which have been modified during calls to ancestor()
+    private ArrayList<Integer> keysToNull; // keep track of vertex indexed array indices which have been modified
     private Queue<Integer> firstQ;         // Queue for BFS on first vertex or subset
     private Queue<Integer> secondQ;        // Queue for BFS on second vertex or subset
     private int[] distV;                   // each index represents a vertex in graph, it's value represents the distance that vertex is from v
@@ -106,9 +106,7 @@ public class ShortestCommonAncestor {
                 keysToNull.add(adjacent);
                 secondQ.enqueue(adjacent);
                 if (distV[adjacent] != -1) {  // optimization: why not find distance here?
-                    // key = adjacent vertex id, value = distance of adjacent node from v + distance from w
                     distanceByReachables.put(adjacent, (distV[adjacent]) + distW[adjacent]);
-
                 }
             }
         }
@@ -121,18 +119,15 @@ public class ShortestCommonAncestor {
             }
         }
 
-        // CLEAR WORK DONE IN  CALL
+        // CLEAR WORK DONE IN CALL
         for (int key : keysToNull) {
             distV[key] = -1;
             distW[key] = -1;
         }
 
-        // we didn't cover delete() in class and it looks computationally expensive
-        // size of this ST should remain fairly small compared to size of graph
         for (int key : distanceByReachables.keys()) {
             distanceByReachables.delete(key);
         }
-
 
         keysToNull.clear();
 
@@ -170,9 +165,7 @@ public class ShortestCommonAncestor {
                 keysToNull.add(adjacent);
                 secondQ.enqueue(adjacent);
                 if (distV[adjacent] != -1) {  // optimization: why not find distance here?
-                    // key = adjacent vertex id, value = distance of adjacent node from v + distance from w
                     distanceByReachables.put(adjacent, (distV[adjacent]) + distW[adjacent]);
-
                 }
             }
         }
@@ -186,14 +179,12 @@ public class ShortestCommonAncestor {
             }
         }
 
-        // CLEAR WORK DONE IN  CALL
+        // CLEAR WORK DONE IN CALL
         for (int key : keysToNull) {
             distV[key] = -1;
             distW[key] = -1;
         }
 
-        // we didn't cover delete() in class and it looks computationally expensive
-        // size of this ST should remain fairly small compared to size of graph
         for (int key : distanceByReachables.keys()) {
             distanceByReachables.delete(key);
         }
@@ -254,14 +245,12 @@ public class ShortestCommonAncestor {
             }
         }
 
-        // CLEAR WORK DONE IN  CALL
+        // CLEAR WORK DONE IN CALL
         for (int key : keysToNull) {
             distV[key] = -1;
             distW[key] = -1;
         }
 
-        // we didn't cover delete() in class and it looks computationally expensive
-        // size of this ST should remain fairly small compared to size of graph
         for (int key : distanceByReachables.keys()) {
             distanceByReachables.delete(key);
         }
@@ -322,14 +311,12 @@ public class ShortestCommonAncestor {
             }
         }
 
-        // CLEAR WORK DONE IN  CALL
+        // CLEAR WORK DONE IN CALL
         for (int key : keysToNull) {
             distV[key] = -1;
             distW[key] = -1;
         }
 
-        // we didn't cover delete() in class and it looks computationally expensive
-        // size of this ST should remain fairly small compared to size of graph
         for (int key : distanceByReachables.keys()) {
             distanceByReachables.delete(key);
         }

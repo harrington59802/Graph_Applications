@@ -39,22 +39,20 @@ import java.io.IOException;
 
 public class WordNet {
     private Digraph wordnet;
-    // set to public for debugging CHNAGE BACK
-    public LinearProbingHashST<Integer, Bag<String>> synsetsByID;
-    public LinearProbingHashST<String, Bag<Integer>> idsByNoun;
+    private LinearProbingHashST<Integer, Bag<String>> synsetsByID;
+    private LinearProbingHashST<String, Bag<Integer>> idsByNoun;
 
    // constructor takes the name of the two input files
    public WordNet(String synsets, String hypernyms) throws IOException /* "throw" required for FileReader*/ {
        if (synsets == null || hypernyms == null) throw new NullPointerException();
-       // initialize data structures
        synsetsByID = new LinearProbingHashST<>();
        idsByNoun = new LinearProbingHashST<>();
 
-       // Read in all synsets (and do something with them)
+       // Read in all synsets
        getSynsets(synsets);
 
-       // Read in all hypernyms with some similar code
-       getHypernyms(hypernyms); // also creates a digraph
+       // Read in all hypernyms and create digraph
+       getHypernyms(hypernyms);
 
    }
 
@@ -82,16 +80,6 @@ public class WordNet {
        int shortestCommonAncesotr = SCA.ancestor(one, two);
 
        return String.join("", synsetsByID.get(shortestCommonAncesotr));
-
-       // Iterator<String> I =  synsetsByID.get(shortestCommonAncesotr).iterator();
-       //
-       // String s = "";
-       //
-       // for (Iterator<String> it = I; it.hasNext(); ) {
-       //     String i = it.next();
-       //     s = i + ' ';
-       // }
-       // return s;
    }
 
    // distance between noun1 and noun2 (defined below)
@@ -125,13 +113,12 @@ public class WordNet {
             // associate bag of sysnset elements with synID
             synsetsByID.put(synId, synBag);
 
-            // get hashMap of nouns and Bag<Ids>
+            // get ST of nouns and Bag<Ids>
             // one noun may have many IDs
             // need to check if noun key entry already exists
-            // and if it does, modify it's int id bag to include current id
+            // and if it does, modify to include current id
             Bag<Integer> currIDbag = new Bag<Integer>();
             currIDbag.add(synId);
-            // get hashMap nouns
             for (String string : synset) {
                 if (!idsByNoun.contains(string)) {
                     idsByNoun.put(string, currIDbag);
@@ -145,29 +132,28 @@ public class WordNet {
                     System.out.println("Something went wrong initializing idsByNoun");
                 }
             }
-                // Read next line from file and ..
+                // Read next line and keep track of number of nouns for digraph initialization
             lineCounter++;
             line = input.readLine();
         }
 
-        // initialize digraph in order to relate ids in hypernyms file
+        // initialize digraph to correct size
         wordnet = new Digraph(lineCounter);
 
         input.close();
     }
 
     public void getHypernyms(String hypernyms)  throws IOException{ /* "throw" required for FileReader*/
-        // Read in all synsets (and do something with them)
+        // Read in all hypernyms
         BufferedReader input = new BufferedReader(new FileReader(hypernyms));
         String line = input.readLine();
         while (line != null) {
             String parts[] = line.split(",");
             int hypID = Integer.parseInt(parts[0]);
-            // digraph here relating ids
+            // create digraph relating ids
                 for (int i = 1; i < parts.length; i++) {
                     wordnet.addEdge(hypID, Integer.parseInt(parts[i]));
                 }
-            // Read next line from file and ..
             line = input.readLine();
         }
         input.close();
