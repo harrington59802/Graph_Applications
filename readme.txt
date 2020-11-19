@@ -2,11 +2,11 @@ A Programming Assignment for Data Structures and Algorithms completed
 by John Harrington in November, 2020.
 
 This assignment is being shared in order to demonstrate my work to future
-employers, I do not authorize nor encourage any academic misconduct that may
+employers. I do not authorize nor encourage any academic misconduct that may
 result from sharing this content online.
 
 This assignment was designed by Robert Sedgewick and Kevin Wayne as part of
-their Algorithms Coursera Course partnered with Princeton university.
+their Algorithms Coursera Course partnered with Princeton University.
 
 This program contains three classes: Wordnet, ShortestCommonAncestor, and Outcast.
 
